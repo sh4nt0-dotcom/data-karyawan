@@ -26,6 +26,25 @@ const Karyawan = mongoose.model('Karyawan', karyawanSchema);
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Data Karyawan API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      list: 'GET /api/karyawan',
+      detail: 'GET /api/karyawan/:id',
+      create: 'POST /api/karyawan'
+    }
+  });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // Endpoint list karyawan
 app.get('/api/karyawan', async (req, res) => {
   try {
